@@ -1,0 +1,72 @@
+================================================================================
+                    GARAGE DOOR CONTROLLER (MASTER) - WIRING DIAGRAM
+================================================================================
+
+                               +----------------------+
+                               |  SEEED XIAO ESP32C3  |
+                               |                      |
+          +------------------->| 5V                   |
+          |                    |                      |
+          |   +--------------->| GND                  |
+          |   |                |                      |
+          |   |      +-------->| D0 (GPIO 2)          |
+          |   |      |         |                      |
+          |   |      |   +---->| D1 (GPIO 3) ---------------------> RELAY 1 (IN)
+          |   |      |   |     |                      |
+          |   |      |   |   +>| D2 (GPIO 4) ---------------------> RELAY 2 (IN)
+          |   |      |   |   | |                      |
+          |   |      |   |   | | D3 (GPIO 5)          |
+          |   |      |   |   | |                      |
+          |   |      |   |   | | D4 (GPIO 6) ---------------------> OLED SDA
+          |   |      |   |   | |                      |
+          |   |      |   |   | | D5 (GPIO 7) ---------------------> OLED SCL
+          |   |      |   |   | |                      |
+          |   |      |   |   | | 3V3 -----------------------------> OLED VCC / RELAY VCC (if 3.3v)
+          |   |      |   |   | +----------------------+
+          |   |      |   |   |
+          |   |      |   |   |
+      [5V PSU]|      |   |   |
+          |   |      |   |   |
+          |   |      |   |   |
+          +---|------|---|---|--------------------------------------+
+              |      |   |   |                                      |
+              |      |   |   +------------------------------------[RELAY 2 MODULE]
+              |      |   |                                          |  |
+              |      |   +----------------------------------------[RELAY 1 MODULE]
+              |      |                                              |  |
+              |      +-------------------------------------------(Unused/Optional)
+              |
+              +--------------------------------------------------> GND (Common)
+
+
+      NOTES:
+      1. Relays: If using 5V relays, power them from the 5V pin, not 3V3.
+         Connect Relay GND to Common GND.
+      2. OLED: Standard I2C SSD1306 (GND to GND, VCC to 3V3).
+
+
+================================================================================
+                    GARAGE DOOR REMOTE (CLIENT) - WIRING DIAGRAM
+================================================================================
+
+                               +----------------------+
+                               |  SEEED XIAO ESP32C3  |
+                               |                      |
+       [BATTERY +]------------>| 3V3 / BAT            |
+                               |                      |
+       [BATTERY -]----+------->| GND                  |
+                      |        |                      |
+                      |      +>| D0 (GPIO 2)          |
+                      |      | |                      |
+                      |      | | ...                  |
+                      |      | +----------------------+
+                      |      |
+                      |  [PUSH BUTTON]
+                      |      |
+                      +------+
+
+      NOTES:
+      1. Button: Connect a momentary push button between D0 (GPIO 2) and GND.
+      2. Power: Can be powered by a 3.7V LiPo via the battery pads on the back 
+         of the XIAO, or via USB. For coin cell usage (CR2032), ensure voltage 
+         is sufficient (ESP32 peaks can be high), though LiPo is recommended.
